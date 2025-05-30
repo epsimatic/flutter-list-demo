@@ -145,7 +145,7 @@ class _ItemFilterState extends State<ItemFilter> {
   }
 }
 
-class ItemList extends StatelessWidget {
+class ItemList extends StatefulWidget {
   final List<Item> items;
   final Label? selectedLabel;
 
@@ -156,30 +156,106 @@ class ItemList extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // If a label is selected, we filter items that contain that label.
-    // If no label is selected, we show all items.
-    final displayedItems = selectedLabel == null
-        ? items
-        : items
-            .where((item) =>
-                item.labels?.contains(selectedLabel) ?? false)
-            .toList();
+  State<ItemList> createState() => _ItemListState();
+}
 
-    return ListView.builder(
-      itemCount: displayedItems.length,
-      itemBuilder: (context, index) {
-        final item = displayedItems[index];
-        return ListTile(
-          title: Text(item.title),
-          trailing: item.labels != null
-              ? Wrap(
-                  spacing: 4,
-                  children: item.labels!
-                      .map((label) => LabelPill(label: label))
-                      .toList(),
-                )
-              : null,
+class _ItemListState extends State<ItemList> {
+  // We'll use a GlobalKey for the AnimatedList to allow for animated insertions/removals.
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  late List<Item> _displayedItems;
+  @override
+  void initState() {
+    super.initState();
+    _displayedItems = _computeDisplayedItems();
+  }
+
+  @override
+  void didUpdateWidget(ItemList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final oldItems = oldWidget.items;
+    final newItems = widget.items;
+    final oldSelectedLabel = oldWidget.selectedLabel;
+    final newSelectedLabel = widget.selectedLabel;
+
+    // We only need to animate if the filter label changed or the entire item list changed.
+    if (oldSelectedLabel != newSelectedLabel || oldItems != newItems) {
+      final previousDisplayedItems = _displayedItems;
+      final newDisplayedItems = _computeDisplayedItems();
+
+      // Compute which items are added and which are removed.
+      final addedItems = newDisplayedItems.where((item) => !previousDisplayedItems.contains(item)).toList();
+      final removedItems = previousDisplayedItems.where((item) => !newDisplayedItems.contains(item)).toList();
+
+      // First, remove the items that are no longer in the list.
+      for (final removedItem in removedItems) {
+        final index = previousDisplayedItems.indexOf(removedItem);
+        // It's possible the item might have been removed already by a previous operation?
+        // But we are iterating over the list at the time of the change.
+        if (index != -1) {
+          final item = previousDisplayedItems.removeAt(index);
+          _listKey.currentState?.removeItem(index, (context, animation) {
+            return _buildRemovedItem(item, animation);
+          });
+        }
+      }
+
+      // Then, add the new items at their correct positions in the new list.
+      for (final addedItem in addedItems) {
+        final index = newDisplayedItems.indexOf(addedItem);
+        if (index != -1) {
+          _displayedItems.insert(index, addedItem);
+          _listKey.currentState?.insertItem(index);
+        }
+      }
+    }
+  }
+
+  List<Item> _computeDisplayedItems() {
+    return widget.selectedLabel == null
+        ? List.from(widget.items)
+        : widget.items
+            .where((item) => item.labels?.contains(widget.selectedLabel) ?? false)
+            .toList();
+  }
+
+  Widget _buildRemovedItem(Item item, Animation<double> animation) {
+    // Build a ListTile that will animate out.
+    return FadeTransition(
+      opacity: CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOut,
+      ),
+      child: SizeTransition(
+        sizeFactor: animation,
+        child: _buildItem(item),
+      ),
+    );
+  }
+
+  Widget _buildItem(Item item) {
+    return ListTile(
+      key: ValueKey(item.title),
+      title: Text(item.title),
+      trailing: item.labels != null
+          ? Wrap(
+              spacing: 4,
+              children: item.labels!.map((label) => LabelPill(label: label)).toList(),
+            )
+          : null,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // We are using an AnimatedList to handle the insertions and removals with animation.
+    return AnimatedList(
+      key: _listKey,
+      initialItemCount: _displayedItems.length,
+      itemBuilder: (context, index, animation) {
+        final item = _displayedItems[index];
+        return FadeTransition(
+          opacity: animation.drive(CurveTween(curve: Curves.easeIn)),
+          child: _buildItem(item),
         );
       },
     );
