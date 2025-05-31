@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'book.dart';
 import 'label.dart';
-import 'widget-book-list.dart';
-import 'widget-filter-row.dart';
+import 'widget_book_list.dart';
+import 'widget_filter_row.dart';
 
 class BookFilteredList extends StatefulWidget {
   final List<Book> books;

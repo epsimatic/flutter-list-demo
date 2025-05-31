@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'book.dart';
 import 'label.dart';
-import 'widget-book-filtered-list.dart';
+import 'widget_book_filtered_list.dart';
 
 void main() {
   final List<Book> books = [

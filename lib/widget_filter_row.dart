@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'label.dart';
-import 'widget-label-pill.dart';
+import 'widget_label_pill.dart';
 
 class FilterRow extends StatefulWidget {
   final ValueChanged<Label?> onFilterChanged;

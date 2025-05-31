@@ -61,10 +61,10 @@ jobs:
           flutter-version-file: pubspec.yaml
           cache: true
 
-      - name: Disable analytics
-        run: |
-          flutter --disable-analytics
-          dart --disable-analytics
+      # - name: Disable analytics
+      #   run: |
+      #     flutter --disable-analytics
+      #     dart --disable-analytics
 
       - name: Get dependencies
         run: flutter pub get

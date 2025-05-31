@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'book.dart';
 import 'label.dart';
-import 'widget-label-pill.dart';
+import 'widget_label_pill.dart';
 
 class BookList extends StatefulWidget {
   final List<Book> books;
