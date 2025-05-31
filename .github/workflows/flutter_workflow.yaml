@@ -1,0 +1,136 @@
+name: Flutter workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-24.04 # or ubuntu-24.04-arm
+    timeout-minutes: 3
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      - name: Disable analytics
+        run: |
+          flutter --disable-analytics
+          dart --disable-analytics
+
+      - name: "DEBUG: Flutter state"
+        run: flutter doctor -v
+
+      - name: Get dependencies
+        run: | 
+          flutter pub get
+          flutter pub outdated
+
+      - name: "Check: Dart formatting"
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: "Check: Flutter Analyze"
+        run: flutter analyze --no-pub --no-fatal-infos --fatal-warnings
+
+      # - name: "Check: Flutter tests"
+      #   run: flutter test
+
+  build_apk:
+    name: Build APK
+    needs: analyze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      - name: Disable analytics
+        run: |
+          flutter --disable-analytics
+          dart --disable-analytics
+
+      - name: Get dependencies
+        run: flutter pub get
+
+
+      - name: Set up Java & Gradle cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17' # FIXME: parse Java version from Flutter configuration
+          cache: 'gradle'
+
+
+      # - name: Get metadata from pubspec
+      #   uses: altive/pubspec-metadata@v1
+      #   id: pubspec
+      #     # echo ${{ steps.pubspec.outputs.name }}
+      #     # echo ${{ steps.pubspec.outputs.version-number }}
+      #     # echo ${{ steps.pubspec.outputs.build-number }}
+
+      - name: Generate APK name
+        run: |
+          GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-7)
+          APP_NAME=$(yq e '.name' pubspec.yaml)
+          APP_VERSION=$(yq e '.version' pubspec.yaml)
+          echo "APP_FILENAME=${APP_NAME}-${APP_VERSION}-beta_${GITHUB_SHA_SHORT}" >> $GITHUB_ENV
+
+
+      - name: Build APK for ${{ env.APP_FILENAME }}
+        # https://github.com/flutter/flutter/issues/29509#issuecomment-762274977
+        # "--obfuscate" can only be used in combination with "--split-debug-info"
+        run: |
+          flutter build apk --no-pub
+          mv -v build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/$APP_FILENAME.apk
+
+      # - run: flutter build appbundle
+
+      - name: Store APK as artifact
+        uses: actions/upload-artifact@v4
+        # https://github.com/actions/upload-artifact
+        # Artifacts are retained for 90 days by default
+        with:
+          name: "${{ env.APP_FILENAME }}.apk"
+          path: "build/app/outputs/flutter-apk/${{ env.APP_FILENAME }}.apk"
+          if-no-files-found: error
+
+      - name: "DEBUG: Flutter state"
+        run: flutter doctor -v
+
+      - name: Get apk info
+        id: apk-info
+        uses: hkusu/apk-info-action@v1
+        with:
+          apk-path: "build/app/outputs/flutter-apk/${{ env.APP_FILENAME }}.apk"
+      - name: "DEBUG: Show apk info"
+        run: |
+          echo 'application-name: ${{ steps.apk-info.outputs.application-name }}'
+          echo 'application-id: ${{ steps.apk-info.outputs.application-id }}'
+          echo 'version-code: ${{ steps.apk-info.outputs.version-code }}'
+          echo 'version-name: ${{ steps.apk-info.outputs.version-name }}'
+          echo 'min-sdk-version: ${{ steps.apk-info.outputs.min-sdk-version }}'
+          echo 'target-sdk-version: ${{ steps.apk-info.outputs.target-sdk-version }}'
+          echo 'compile-sdk-version: ${{ steps.apk-info.outputs.compile-sdk-version }}'
+          echo 'uses-permissions: ${{ steps.apk-info.outputs.uses-permissions }}'
+          echo 'debuggable: ${{ steps.apk-info.outputs.debuggable }}'
+          echo 'allow-backup: ${{ steps.apk-info.outputs.allow-backup }}'
+          echo 'supports-rtl: ${{ steps.apk-info.outputs.supports-rtl }}'
+          echo 'file-size: ${{ steps.apk-info.outputs.file-size }}'
+          echo 'readable-file-size: ${{ steps.apk-info.outputs.readable-file-size }}'
