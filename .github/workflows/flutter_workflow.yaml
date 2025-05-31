@@ -24,10 +24,10 @@ jobs:
           flutter-version-file: pubspec.yaml
           cache: true
 
-      - name: Disable analytics
-        run: |
-          flutter --disable-analytics
-          dart --disable-analytics
+      # - name: Disable analytics
+      #   run: |
+      #     flutter --disable-analytics --disable-telemetry
+      #     dart --disable-analytics
 
       - name: "DEBUG: Flutter state"
         run: flutter doctor -v
