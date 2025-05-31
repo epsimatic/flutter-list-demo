@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 
-import 'list_item.dart';
+import 'book.dart';
+import 'label.dart';
+import 'widget-book-filtered-list.dart';
 
 void main() {
-  final List<Item> items = [
-    Item(title: 'The Great Gatsby', labels: [Label.free]),
-    Item(title: 'To Kill a Mockingbird', labels: [Label.paid]),
-    Item(title: '1984', labels: [Label.paid]),
-    Item(title: 'Pride and Prejudice', labels: [Label.free]),
-    Item(title: 'The Catcher in the Rye', labels: [Label.paid]),
-    Item(title: 'Animal Farm', labels: [Label.free]),
-    Item(title: 'Lord of the Flies', labels: [Label.paid]),
-    Item(title: 'Brave New World', labels: [Label.free]),
-    Item(title: 'The Hobbit', labels: [Label.paid]),
-    Item(title: 'Fahrenheit 451', labels: [Label.free]),
-    Item(title: 'Moby Dick', labels: [Label.paid, Label.available]),
-    Item(title: 'War and Peace', labels: [Label.paid, Label.available]),
-    Item(title: 'The Odyssey', labels: [Label.paid, Label.available]),
-    Item(title: 'Crime and Punishment', labels: [Label.paid, Label.available]),
-    Item(title: 'The Iliad', labels: [Label.paid, Label.available]),
-    Item(title: 'The Brothers Karamazov', labels: [Label.paid, Label.ondevice]),
-    Item(title: 'Ulysses', labels: [Label.free, Label.ondevice]),
-    Item(title: 'In Search of Lost Time', labels: [Label.free, Label.ondevice]),
-    Item(title: 'The Divine Comedy', labels: [Label.paid, Label.broken]),
-    Item(title: 'Don Quixote', labels: [Label.paid, Label.broken]),
+  final List<Book> books = [
+    Book(title: 'Туманность Андромеды', labels: [Label.free]),
+    Book(title: 'Пикник на обочине', labels: [Label.paid]),
+    Book(title: 'Обитаемый остров', labels: [Label.paid]),
+    Book(title: 'Трудно быть богом', labels: [Label.free]),
+    Book(title: 'Понедельник начинается в субботу', labels: [Label.paid]),
+    Book(title: 'Страна багровых туч', labels: [Label.free]),
+    Book(title: 'Полдень, XXII век', labels: [Label.paid]),
+    Book(title: 'Малыш', labels: [Label.free]),
+    Book(title: 'Жук в муравейнике', labels: [Label.paid, Label.available]),
+    Book(title: 'Волны гасят ветер', labels: [Label.paid, Label.available]),
+    Book(title: 'Час Быка', labels: [Label.paid, Label.available]),
+    Book(title: 'Таис Афинская', labels: [Label.paid, Label.available]),
+    Book(title: 'Лезвие бритвы', labels: [Label.paid, Label.available]),
+    Book(title: 'Хищные вещи века', labels: [Label.paid, Label.ondevice]),
+    Book(title: 'Попытка к бегству', labels: [Label.free, Label.ondevice]),
+    Book(title: 'Далёкая Радуга', labels: [Label.free, Label.ondevice]),
+    Book(title: 'Отягощённые злом', labels: [Label.paid, Label.broken]),
+    Book(title: 'Парень из преисподней', labels: [Label.paid, Label.broken]),
   ];
 
-  runApp(MyApp(items: items));
+  runApp(MyApp(books: books));
 }
 
 class MyApp extends StatelessWidget {
-  final List<Item> items;
-  const MyApp({super.key, required this.items});
+  final List<Book> books;
+  const MyApp({super.key, required this.books});
 
   // This widget is the root of your application.
   @override
@@ -57,13 +57,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: 'Filtered list demo', items: items),
+      home: MyHomePage(title: 'Filtered list sample', books: books),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title, required this.items});
+  const MyHomePage({super.key, required this.title, required this.books});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -75,7 +75,7 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
-  final List<Item> items;
+  final List<Book> books;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: ItemFilteredList(items: widget.items),
+      body: BookFilteredList(books: widget.books),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,
       //   tooltip: 'Increment',
