@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'book.dart';
+import 'widget_book.dart';
 import 'widget_label_pill.dart';
 
 class BookList extends StatefulWidget {
@@ -98,10 +99,10 @@ class _BookListState extends State<BookList> {
   Widget _buildItem(Book book) {
     return ListTile(
       key: ValueKey(book.title),
-      title: Text(book.title),
+      title: BookWidget(book: book),
       trailing: book.labels != null
           ? Wrap(
-              spacing: 4,
+              spacing: 3,
               children:
                   book.labels!.map((label) => LabelPill(label: label)).toList(),
             )
