@@ -31,8 +31,6 @@ class Label {
   static final Map<String, String> _titleMap = {
     available: 'Куплена',
     ondevice: 'Загружена',
-    free: 'Free',
-    paid: '100 ₽',
     broken: 'Требуется обновление',
   };
 

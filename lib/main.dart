@@ -6,24 +6,92 @@ import 'widget_book_filtered_list.dart';
 
 void main() {
   final List<Book> books = [
-    Book(title: 'Туманность Андромеды', labels: [Label.free]),
-    Book(title: 'Пикник на обочине', labels: [Label.paid]),
-    Book(title: 'Обитаемый остров', labels: [Label.paid]),
-    Book(title: 'Трудно быть богом', labels: [Label.free]),
-    Book(title: 'Понедельник начинается в субботу', labels: [Label.paid]),
-    Book(title: 'Страна багровых туч', labels: [Label.free]),
-    Book(title: 'Полдень, XXII век', labels: [Label.paid]),
-    Book(title: 'Малыш', labels: [Label.free]),
-    Book(title: 'Жук в муравейнике', labels: [Label.paid, Label.available]),
-    Book(title: 'Волны гасят ветер', labels: [Label.paid, Label.available]),
-    Book(title: 'Час Быка', labels: [Label.paid, Label.available]),
-    Book(title: 'Таис Афинская', labels: [Label.paid, Label.available]),
-    Book(title: 'Лезвие бритвы', labels: [Label.paid, Label.available]),
-    Book(title: 'Хищные вещи века', labels: [Label.paid, Label.ondevice]),
-    Book(title: 'Попытка к бегству', labels: [Label.free, Label.ondevice]),
-    Book(title: 'Далёкая Радуга', labels: [Label.free, Label.ondevice]),
-    Book(title: 'Отягощённые злом', labels: [Label.paid, Label.broken]),
-    Book(title: 'Парень из преисподней', labels: [Label.paid, Label.broken]),
+    Book(
+        title: 'Туманность Андромеды',
+        labels: [Label.free],
+        price: 0,
+        sizeBytes: 1200000),
+    Book(
+        title: 'Пикник на обочине',
+        labels: [Label.paid],
+        price: 200,
+        sizeBytes: 3850000),
+    Book(
+        title: 'Обитаемый остров',
+        labels: [Label.paid],
+        price: 300,
+        sizeBytes: 2300000),
+    Book(
+        title: 'Трудно быть богом',
+        labels: [Label.free],
+        price: 0,
+        sizeBytes: 1100000),
+    Book(
+        title: 'Понедельник начинается в субботу',
+        labels: [Label.paid],
+        price: 249,
+        sizeBytes: 950000),
+    Book(
+        title: 'Страна багровых туч',
+        labels: [Label.free],
+        price: 0,
+        sizeBytes: 1350000),
+    Book(
+        title: 'Полдень, XXII век',
+        labels: [Label.paid],
+        price: 180,
+        sizeBytes: 1800000),
+    Book(title: 'Малыш', labels: [Label.free], price: 0, sizeBytes: 750000),
+    Book(
+        title: 'Жук в муравейнике',
+        labels: [Label.paid, Label.available],
+        price: 350,
+        sizeBytes: 1800000),
+    Book(
+        title: 'Волны гасят ветер',
+        labels: [Label.paid, Label.available],
+        price: 350,
+        sizeBytes: 2100000),
+    Book(
+        title: 'Час Быка',
+        labels: [Label.paid, Label.available],
+        price: 400,
+        sizeBytes: 2750000),
+    Book(
+        title: 'Таис Афинская',
+        labels: [Label.paid, Label.available],
+        price: 450,
+        sizeBytes: 3200000),
+    Book(
+        title: 'Лезвие бритвы',
+        labels: [Label.paid, Label.available],
+        price: 300,
+        sizeBytes: 1900000),
+    Book(
+        title: 'Хищные вещи века',
+        labels: [Label.paid, Label.ondevice],
+        price: 200,
+        sizeBytes: 890000),
+    Book(
+        title: 'Попытка к бегству',
+        labels: [Label.free, Label.ondevice],
+        price: 0,
+        sizeBytes: 1150000),
+    Book(
+        title: 'Далёкая Радуга',
+        labels: [Label.free, Label.ondevice],
+        price: 0,
+        sizeBytes: 780000),
+    Book(
+        title: 'Отягощённые злом',
+        labels: [Label.paid, Label.broken],
+        price: 200,
+        sizeBytes: 1250000),
+    Book(
+        title: 'Парень из преисподней',
+        labels: [Label.paid, Label.broken],
+        price: 200,
+        sizeBytes: 920000),
   ];
   books.shuffle();
 

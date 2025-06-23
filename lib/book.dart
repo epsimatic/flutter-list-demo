@@ -1,8 +1,14 @@
 class Book {
   final String title;
   final List<String> labels;
+  final int price;
+  final int sizeBytes;
 
-  Book({required this.title, this.labels = const []});
+  Book(
+      {required this.title,
+      this.labels = const [],
+      this.price = 0,
+      required this.sizeBytes});
 }
 
 /// Returns a map where the keys are the label strings and the value is the count.

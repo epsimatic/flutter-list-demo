@@ -96,13 +96,18 @@ class _BookListState extends State<BookList> {
   }
 
   Widget _buildItem(Book book) {
+    const excludedLabels = {'free', 'paid', 'available', 'ondevice'};
     return ListTile(
-        key: ValueKey(book.title),
-        title: BookWidget(book: book),
-        trailing: Wrap(
-            spacing: 3,
-            children:
-                book.labels.map((label) => LabelPill(label: label)).toList()));
+      key: ValueKey(book.title),
+      title: BookWidget(book: book),
+      trailing: Wrap(
+        spacing: 3,
+        children: book.labels
+            .where((label) => !excludedLabels.contains(label))
+            .map((label) => LabelPill(label: label))
+            .toList(),
+      ),
+    );
   }
 
   @override
