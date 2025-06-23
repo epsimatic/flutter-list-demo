@@ -27,7 +27,7 @@ class Label {
   static Color textColor(String label) {
     return HSLColor.fromAHSL(0.8, getHue(label), 0.8, 0.4).toColor();
   }
-  
+
   static final Map<String, String> _titleMap = {
     available: 'Куплена',
     ondevice: 'Загружена',

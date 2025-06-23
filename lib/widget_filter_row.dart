@@ -5,7 +5,8 @@ class FilterRow extends StatefulWidget {
   final ValueChanged<String?> onFilterChanged;
   final Map<String, int> labels;
 
-  const FilterRow({super.key, required this.labels, required this.onFilterChanged});
+  const FilterRow(
+      {super.key, required this.labels, required this.onFilterChanged});
 
   @override
   State<FilterRow> createState() => _FilterRowState();

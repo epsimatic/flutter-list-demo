@@ -69,8 +69,7 @@ class FilterCount extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 4),
       child: Container(
-        padding:
-            const EdgeInsets.fromLTRB(4, 0, 4, 1),
+        padding: const EdgeInsets.fromLTRB(4, 0, 4, 1),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(8),
