@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'label.dart';
+import 'label_utils.dart';
 
 class LabelPill extends StatelessWidget {
-  final Label label;
+  final String label;
   final bool isSelected;
   final VoidCallback? onTap;
 
@@ -24,18 +24,18 @@ class LabelPill extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             color: isSelected
-                ? label.backgroundColor.withAlpha(255)
-                : label.backgroundColor,
+                ? Label.backgroundColor(label).withAlpha(255)
+                : Label.backgroundColor(label),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isSelected ? label.textColor : Colors.transparent,
+              color: isSelected ? Label.textColor(label) : Colors.transparent,
               width: 1.5,
             ),
           ),
           child: Text(
-            label.displayTitle,
+            Label.displayTitle(label),
             style: TextStyle(
-              color: label.textColor,
+              color: Label.textColor(label),
               fontSize: 12,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),

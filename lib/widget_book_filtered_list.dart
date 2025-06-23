@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'book.dart';
-import 'label.dart';
 import 'widget_book_list.dart';
 import 'widget_filter_row.dart';
 
@@ -18,13 +17,14 @@ class BookFilteredList extends StatefulWidget {
 }
 
 class _BookFilteredListState extends State<BookFilteredList> {
-  Label? _selectedLabel;
+  String? _selectedLabel;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         FilterRow(
+          labels: countLabels(widget.books),
           onFilterChanged: (label) {
             setState(() {
               _selectedLabel = label;

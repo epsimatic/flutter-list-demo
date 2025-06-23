@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'book.dart';
-import 'label.dart';
+import 'label_utils.dart';
 import 'widget_book_filtered_list.dart';
 
 void main() {
@@ -25,6 +25,7 @@ void main() {
     Book(title: 'Отягощённые злом', labels: [Label.paid, Label.broken]),
     Book(title: 'Парень из преисподней', labels: [Label.paid, Label.broken]),
   ];
+  books.shuffle();
 
   runApp(MyApp(books: books));
 }
