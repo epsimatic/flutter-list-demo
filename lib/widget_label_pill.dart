@@ -8,11 +8,11 @@ class LabelPill extends StatelessWidget {
   final VoidCallback? onTap;
 
   const LabelPill({
-    Key? key,
+    super.key,
     required this.label,
     this.isSelected = false,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

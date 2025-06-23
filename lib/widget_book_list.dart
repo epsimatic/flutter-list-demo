@@ -9,10 +9,10 @@ class BookList extends StatefulWidget {
   final Label? selectedLabel;
 
   const BookList({
-    Key? key,
+    super.key,
     required this.books,
     this.selectedLabel,
-  }) : super(key: key);
+  });
 
   @override
   State<BookList> createState() => _BookListState();

@@ -6,7 +6,7 @@ import 'widget_label_pill.dart';
 class FilterRow extends StatefulWidget {
   final ValueChanged<Label?> onFilterChanged;
 
-  const FilterRow({Key? key, required this.onFilterChanged}) : super(key: key);
+  const FilterRow({super.key, required this.onFilterChanged});
 
   @override
   State<FilterRow> createState() => _FilterRowState();

@@ -9,9 +9,9 @@ class BookFilteredList extends StatefulWidget {
   final List<Book> books;
 
   const BookFilteredList({
-    Key? key,
+    super.key,
     required this.books,
-  }) : super(key: key);
+  });
 
   @override
   State<BookFilteredList> createState() => _BookFilteredListState();
