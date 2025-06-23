@@ -77,8 +77,7 @@ class _BookListState extends State<BookList> {
     return widget.selectedLabel == null
         ? List.from(widget.books)
         : widget.books
-            .where(
-                (item) => item.labels?.contains(widget.selectedLabel) ?? false)
+            .where((item) => item.labels.contains(widget.selectedLabel))
             .toList();
   }
 
@@ -98,16 +97,12 @@ class _BookListState extends State<BookList> {
 
   Widget _buildItem(Book book) {
     return ListTile(
-      key: ValueKey(book.title),
-      title: BookWidget(book: book),
-      trailing: book.labels != null
-          ? Wrap(
-              spacing: 3,
-              children:
-                  book.labels!.map((label) => LabelPill(label: label)).toList(),
-            )
-          : null,
-    );
+        key: ValueKey(book.title),
+        title: BookWidget(book: book),
+        trailing: Wrap(
+            spacing: 3,
+            children:
+                book.labels.map((label) => LabelPill(label: label)).toList()));
   }
 
   @override

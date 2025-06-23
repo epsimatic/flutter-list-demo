@@ -14,9 +14,9 @@ class BookWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final iconColor = Theme.of(context).hintColor;
     late final Icon bookIcon;
-    if (book.labels?.contains(Label.broken) ?? false) {
+    if (book.labels.contains(Label.broken)) {
       bookIcon = Icon(Icons.broken_image, color: Label.textColor(Label.broken));
-    } else if (book.labels?.contains(Label.ondevice) ?? false) {
+    } else if (book.labels.contains(Label.ondevice)) {
       bookIcon = Icon(Icons.offline_pin, color: iconColor);
     } else {
       bookIcon = const Icon(Icons.cloud_circle, color: Colors.transparent);
